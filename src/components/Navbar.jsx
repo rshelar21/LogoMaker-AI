@@ -38,6 +38,7 @@ const Container = styled.div`
   position: fixed;
   padding: 10px 50px;
   background-color: ${(props) => (props.scrolled ? "#505ABC" : "transparent")};
+  transition: all 0.5s ease;
 `;
 
 const Left = styled.div`
