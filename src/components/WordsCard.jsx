@@ -26,6 +26,7 @@ const Card = styled.div`
   border: 1px solid rgba(0,0,0,0.3);
   transition: all 0.2s ease;
   margin-top: 20px;
+  font-size: 22px;
   cursor: pointer;
     margin-bottom: 30px;
 
