@@ -1,7 +1,27 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import styled from "styled-components";
+import axios from "../axios";
 
 const Home = () => {
+  const [serachText, setSearchText] = useState("");
+  const [resultData, setResultData] = useState(null);
+
+  const handlerSubmit = async (e) => {
+    e.preventDefault();
+    await axios
+      .post("/predict", {
+        word: serachText,
+      })
+      .then((res) => res.json())
+      .then((data) => {
+        console.log(data);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+
+  console.log(serachText);
   return (
     <>
       <Container>
@@ -13,8 +33,13 @@ const Home = () => {
           </h3>
 
           <InputField>
-            <input type="text" placeholder="Enter your business name" />
-            <Button>Generate</Button>
+            <input
+              type="text"
+              placeholder="Enter your business name"
+              value={serachText}
+              onChange={(e) => setSearchText(e.target.value)}
+            />
+            <Button onClick={handlerSubmit}>Generate</Button>
           </InputField>
         </Main>
       </Container>
