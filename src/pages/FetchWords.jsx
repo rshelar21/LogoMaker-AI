@@ -3,10 +3,12 @@ import styled from "styled-components";
 import axios from "../axios";
 import { useLocation } from "react-router-dom";
 import WordsCard from "../components/WordsCard";
+import {useNavigate} from "react-router-dom";
 
-const Search = () => {
+const FetchWords = () => {
   const [resultData, setResultData] = useState([]);
   const location = useLocation();
+  const navigate = useNavigate();
   useEffect(() => {
     setResultData(location?.state);
   }, [location]);
@@ -15,7 +17,9 @@ const Search = () => {
     console.log(e.target.innerText);
     await axios.post('/generate-images' , {
       word : e.target.innerText
-    }).then((res) => console.log(res)).catch((err) => console.log(err))
+    })
+    .then((res) => navigate('/generate-images', {state: res.data}))
+    .catch((err) => console.log(err))
   }
 
   return (
@@ -68,13 +72,11 @@ const Main = styled.div`
 `;
 
 const Result = styled.div`
-  /* background-color: rgba(0, 0, 0, 0.05); */
   width: 100%;
   max-width: 1300px;
   margin: 0 auto;
   height: 300px;
   margin-top: 20px;
-  /* padding-bottom: 30px; */
 `;
 
 const ResultBody = styled.div`
@@ -83,4 +85,4 @@ const ResultBody = styled.div`
   justify-content: space-between;
 `;
 
-export default Search;
+export default FetchWords;
