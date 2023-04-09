@@ -33,6 +33,7 @@ const Card = styled.div`
     filter: brightness(1);
     box-shadow: 0 0 10px rgba(0,0,0,0.3);
     scale: 1.01;
+    border : 1px solid rgb(80, 90, 188);
   }
 
 

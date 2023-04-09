@@ -3,27 +3,38 @@ import styled from "styled-components";
 import axios from "../axios";
 import { useLocation } from "react-router-dom";
 import WordsCard from "../components/WordsCard";
-import {useNavigate} from "react-router-dom";
+import { useNavigate } from "react-router-dom";
+import Loader from "../components/Loader";
 
 const FetchWords = () => {
   const [resultData, setResultData] = useState([]);
+  const [loading, setLoading] = useState(false);
   const location = useLocation();
   const navigate = useNavigate();
   useEffect(() => {
     setResultData(location?.state);
   }, [location]);
 
-  const handlerSelectWord = async(e) => {
+  const handlerSelectWord = async (e) => {
     console.log(e.target.innerText);
-    await axios.post('/generate-images' , {
-      word : e.target.innerText
-    })
-    .then((res) => navigate('/generate-images', {state: res.data}))
-    .catch((err) => console.log(err))
-  }
+    setLoading(true);
+    await axios
+      .post("/generate-images", {
+        word: e.target.innerText,
+      })
+      .then((res) => {
+        setLoading(false);
+        navigate("/generate-images", { state: res.data });
+      })
+      .catch((err) => {
+        setLoading(false);
+        console.log(err);
+      });
+  };
 
   return (
     <>
+      {loading && <Loader />}
       <Container>
         <Main>
           <h1>Select Any Word to Generate Image </h1>
@@ -36,11 +47,15 @@ const FetchWords = () => {
 
       <Result>
         <ResultBody>
-          {
-            resultData?.map((item, index) => {
-              return <WordsCard key={index} word={item} handlerSelectWord={handlerSelectWord} />
-            })
-          }
+          {resultData?.map((item, index) => {
+            return (
+              <WordsCard
+                key={index}
+                word={item}
+                handlerSelectWord={handlerSelectWord}
+              />
+            );
+          })}
         </ResultBody>
       </Result>
     </>

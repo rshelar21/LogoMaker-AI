@@ -2,17 +2,25 @@ import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import ImagesCard from "../components/ImagesCard";
 import { useLocation } from "react-router-dom";
+import Loader from "../components/Loader";
+
+
+
 
 const GenerateImages = () => {
   const [images, setImages] = useState([]);
+  const [loading, setLoading] = useState(false);
   const location = useLocation();
 
   useEffect(() => {
+    setLoading(true);
     setImages(location?.state);
+    setLoading(false);
   }, [location]);
 
   return (
     <>
+          {loading && <Loader />}
       <Container>
         <Main>
           <h1>Select Word: Books</h1>

@@ -2,30 +2,37 @@ import React, { useState } from "react";
 import styled from "styled-components";
 import axios from "../axios";
 import {useNavigate} from "react-router-dom";
-
+import Loader from "../components/Loader";
 
 const Home = () => {
   const [serachText, setSearchText] = useState("");
   const [resultData, setResultData] = useState(null);
+  const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
 
   const handlerSubmit = async (e) => {
     e.preventDefault();
+    setLoading(true);
     await axios
       .post("/predict", {
         word: serachText,
       })
       .then((data) => {
+        setLoading(false);
         setResultData(data.data);
         navigate("/search", {state: data.data});
       })
       .catch((err) => {
+        setLoading(false);
         console.log(err);
       });
   };
 
   return (
     <>
+    {
+      loading && <Loader />
+    }
       <Container>
         <Main>
           <h1>Business Name Generator</h1>
