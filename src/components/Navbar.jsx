@@ -18,6 +18,7 @@ const Navbar = () => {
         };
     }, [])
 
+
   return (
     <>
       <Container scrolled={scrolled}>

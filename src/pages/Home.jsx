@@ -1,10 +1,14 @@
 import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import axios from "../axios";
+import { Link } from "react-router-dom";
+import {useNavigate} from "react-router-dom";
+
 
 const Home = () => {
   const [serachText, setSearchText] = useState("");
   const [resultData, setResultData] = useState(null);
+  const navigate = useNavigate();
 
   const handlerSubmit = async (e) => {
     e.preventDefault();
@@ -12,9 +16,9 @@ const Home = () => {
       .post("/predict", {
         word: serachText,
       })
-      .then((res) => res.json())
       .then((data) => {
-        console.log(data);
+        setResultData(data.data);
+        navigate("/search", {state: data.data});
       })
       .catch((err) => {
         console.log(err);
